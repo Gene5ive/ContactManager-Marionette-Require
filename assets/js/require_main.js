@@ -3,6 +3,7 @@ requirejs.config({
   paths: {
     backbone: "vendor/backbone",
     jquery: "vendor/jquery",
+    "jquery-ui": "vendor/jquery-ui",
     json2: "vendor/json2",
     marionette: "vendor/backbone.marionette",
     underscore: "vendor/underscore"
@@ -19,7 +20,8 @@ requirejs.config({
     marionette: {
       deps: ["backbone"],
       exports: "Marionette"
-    }
+    },
+    "jquery-ui": ["jquery"]
   }
 });
 
