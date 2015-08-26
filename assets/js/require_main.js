@@ -5,6 +5,7 @@ requirejs.config({
     jquery: "vendor/jquery",
     "jquery-ui": "vendor/jquery-ui",
     json2: "vendor/json2",
+    localstorage: "vendor/backbone.localstorage",
     marionette: "vendor/backbone.marionette",
     underscore: "vendor/underscore"
   },
@@ -21,7 +22,8 @@ requirejs.config({
       deps: ["backbone"],
       exports: "Marionette"
     },
-    "jquery-ui": ["jquery"]
+    "jquery-ui": ["jquery"],
+    localstorage: ["backbone"]
   }
 });
 

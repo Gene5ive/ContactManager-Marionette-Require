@@ -1,4 +1,4 @@
-define(["marionette", "apps/config/marionette/regions/dialog"], function(Marionette){
+define(["marionette", "entities/contact", "apps/config/marionette/regions/dialog"], function(Marionette){
   var ContactManager = new Marionette.Application();
 
   ContactManager.addRegions({
@@ -19,7 +19,13 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
   };
 
   ContactManager.on("start", function(){
-    console.log("Contact Manager has started");
+    require(["entities/contact"], function(){
+      var fetchingContacts = ContactManager.request("contact:entities");
+      $.when(fetchingContacts).done(function(contacts){
+        console.log(contacts);
+      });
+    });
+
     if(Backbone.history){
       Backbone.history.start();
 
