@@ -1,26 +1,40 @@
-ContactManager.module("HeaderApp.List", function(List, ContactManager, Backbone, Marionette, $, _){
-  List.Controller = {
-    listHeader: function(){
-      var links = ContactManager.request("header:entities");
-      var headers = new List.Headers({collection: links});
+define(["app"], function(ContactManager){
+  ContactManager.module("HeaderApp.List", function(List, ContactManager, Backbone, Marionette, $, _){
+    List.Controller = {
+      listContacts: function(){
+        require(["entities/contact"], function(){
+          var fetchingContacts = ContactManager.request("contact:entities");
 
-      headers.on("brand:clicked", function(){
-        ContactManager.trigger("contacts:list");
+          $.when(fetchingContacts).done(function(contacts){
+            console.log(contacts);
+          });
+        })
       });
 
-      headers.on("itemview:navigate", function(childView, model){
-        var trigger = model.get("navigationTrigger");
-        ContactManager.trigger(trigger);
-      });
+      listHeader: function(){
+        var links = ContactManager.request("header:entities");
+        var headers = new List.Headers({collection: links});
 
-      ContactManager.headerRegion.show(headers);
-    },
+        headers.on("brand:clicked", function(){
+          ContactManager.trigger("contacts:list");
+        });
 
-    setActiveHeader: function(headerUrl){
-      var links = ContactManager.request("header:entities");
-      var headerToSelect = links.find(function(header){ return header.get("url") === headerUrl; });
-      headerToSelect.select();
-      links.trigger("reset");
-    }
-  };
+        headers.on("itemview:navigate", function(childView, model){
+          var trigger = model.get("navigationTrigger");
+          ContactManager.trigger(trigger);
+        });
+
+        ContactManager.headerRegion.show(headers);
+      },
+
+      setActiveHeader: function(headerUrl){
+        var links = ContactManager.request("header:entities");
+        var headerToSelect = links.find(function(header){ return header.get("url") === headerUrl; });
+        headerToSelect.select();
+        links.trigger("reset");
+      }
+    };
+  });
+
+  return ContactManager.ContactsApp.List.Controller;
 });
